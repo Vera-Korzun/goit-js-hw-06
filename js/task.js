@@ -29,7 +29,7 @@ console.log(getUsersWithGender(users, "male")) // [ 'Moore Hensley', 'Ross Vazqu
 //==========================4===============================
 
 const getInactiveUsers = users => {
-	return users.filter(user => user.isActive === false)
+	return users.filter(user => !user.isActive)
 }
 
 console.log(getInactiveUsers(users)) // [объект Moore Hensley, объект Ross Vazquez, объект Blackburn Dotson]
@@ -37,7 +37,7 @@ console.log(getInactiveUsers(users)) // [объект Moore Hensley, объек�
 //==========================5===============================
 
 const getUserWithEmail = (users, email) => {
-	return users.filter(user => user.email === email)
+	return users.find(user => user.email === email)
 }
 
 console.log(getUserWithEmail(users, "shereeanthony@kog.com")) // {объект пользователя Sheree Anthony}
@@ -46,7 +46,7 @@ console.log(getUserWithEmail(users, "elmahead@omatom.com")) // {объект п�
 //==========================6===============================
 
 const getUsersWithAge = (users, min, max) => {
-	return users.filter(user => user.age < max && user.age > min)
+	return users.filter(user => user.age <= max && user.age >= min)
 }
 
 console.log(getUsersWithAge(users, 20, 30)) // [объект Ross Vazquez, объект Elma Head, объект Carey Barr]
@@ -57,16 +57,19 @@ console.log(getUsersWithAge(users, 30, 40))
 //==========================7===============================
 
 const calculateTotalBalance = users => {
-	return users.map(user => user.balance).reduce((total, num) => total + num)
+	return users.reduce((total, user) => total + user.balance, 0)
 }
 console.log(calculateTotalBalance(users)) // 20916
 
 //==========================8===============================
 
 const getUsersWithFriend = (users, friendName) => {
-	return users.filter(user => user.friends.includes(friendName)).map(user => user.name)
+	let nameArr = users.reduce((acc, user) => {
+		user.friends.includes(friendName) ? acc.push(user.name) : null
+		return acc
+	}, [])
+	return nameArr
 }
-
 console.log(getUsersWithFriend(users, "Briana Decker")) // [ 'Sharlene Bush', 'Sheree Anthony' ]
 console.log(getUsersWithFriend(users, "Goldie Gentry")) // [ 'Elma Head', 'Sheree Anthony' ]
 
